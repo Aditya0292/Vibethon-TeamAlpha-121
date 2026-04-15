@@ -133,7 +133,6 @@ async function generateFromAvailableProviders(prompt: string): Promise<string> {
           await sleep(600)
           continue
         }
-        // Try next provider when this one fails or is rate-limited.
         break
       }
     }
@@ -147,7 +146,6 @@ function parseJsonResponse<T>(raw: string): T {
   try {
     return JSON.parse(trimmed) as T
   } catch {
-    // Try to recover from wrapped responses like markdown or text wrappers.
     const start = trimmed.search(/[\[{]/)
     const endBrace = trimmed.lastIndexOf("}")
     const endBracket = trimmed.lastIndexOf("]")
@@ -158,29 +156,6 @@ function parseJsonResponse<T>(raw: string): T {
   }
 }
 
-function toQuizQuestions(value: unknown): QuizQuestion[] {
-  if (!Array.isArray(value)) return []
-  const result: QuizQuestion[] = []
-  for (const item of value) {
-    const record = item as Record<string, unknown>
-    const question = typeof record.question === "string" ? record.question : ""
-    const explanation = typeof record.explanation === "string" ? record.explanation : ""
-    const optionsRaw = Array.isArray(record.options) ? record.options : []
-    const options = optionsRaw.filter((o): o is string => typeof o === "string")
-    const correct = typeof record.correct === "number" ? record.correct : -1
-
-    if (question && explanation && options.length === 4 && correct >= 0 && correct <= 3) {
-      result.push({
-        question,
-        options: [options[0], options[1], options[2], options[3]],
-        correct,
-        explanation
-      })
-    }
-  }
-  return result
-}
-
 export async function geminiGenerate(prompt: string) {
   try {
     const text = await generateFromAvailableProviders(prompt)
@@ -189,6 +164,38 @@ export async function geminiGenerate(prompt: string) {
     console.error("geminiGenerate failed:", error)
     return { prompt, text: "" }
   }
+}
+
+export async function getCodeSuggestions(code: string, mission: string): Promise<string> {
+    try {
+        const prompt = `ROLE: Elite ML Architect.
+TASK: Analyze this partial Python code for mission '${mission}'.
+Provide 2-3 specific suggestions for logic optimization or completion. 
+Keep it concise and tactical.
+
+CODE:
+${code}`;
+        const text = await generateFromAvailableProviders(prompt);
+        return text.trim();
+    } catch (error) {
+        return "Tactical analysis unavailable. Review initialization parameters.";
+    }
+}
+
+export async function getMissionHint(code: string, mission: string): Promise<string> {
+    try {
+        const prompt = `ROLE: Tactical Mission Commander.
+TASK: The user is stuck on mission '${mission}'. 
+Provide a cryptic but helpful hint based on their current code. Do NOT give the solution.
+Max 1 sentence.
+
+CODE:
+${code}`;
+        const text = await generateFromAvailableProviders(prompt);
+        return text.trim();
+    } catch (error) {
+        return "Focus on the gradient descent weight update formula.";
+    }
 }
 
 export async function generateQuiz(topic: string, difficulty: string): Promise<QuizQuestion[]> {
@@ -205,6 +212,29 @@ Return ONLY a valid JSON array, no markdown, no explanation:
   }
 }
 
+function toQuizQuestions(value: unknown): QuizQuestion[] {
+    if (!Array.isArray(value)) return []
+    const result: QuizQuestion[] = []
+    for (const item of value) {
+      const record = item as Record<string, unknown>
+      const question = typeof record.question === "string" ? record.question : ""
+      const explanation = typeof record.explanation === "string" ? record.explanation : ""
+      const optionsRaw = Array.isArray(record.options) ? record.options : []
+      const options = optionsRaw.filter((o): o is string => typeof o === "string")
+      const correct = typeof record.correct === "number" ? record.correct : -1
+  
+      if (question && explanation && options.length === 4 && correct >= 0 && correct <= 3) {
+        result.push({
+          question,
+          options: [options[0], options[1], options[2], options[3]],
+          correct,
+          explanation
+        })
+      }
+    }
+    return result
+  }
+
 export async function explainAnswer(
   question: string,
   userAnswer: string,
@@ -216,7 +246,6 @@ Give a 2 sentence explanation using a real-world analogy. Be encouraging.`
     const text = await generateFromAvailableProviders(prompt)
     return text.trim() || "Great effort. Review the core concept once more and you will get it."
   } catch (error) {
-    console.error("explainAnswer failed:", error)
     return "Great effort. Review the core concept once more and you will get it."
   }
 }
@@ -230,7 +259,6 @@ Return ONLY valid JSON:
     const parsed = parseJsonResponse<object>(text)
     return parsed
   } catch (error) {
-    console.error("generateRoadmap failed:", error)
     return { steps: [] }
   }
 }
@@ -251,7 +279,6 @@ ${code}`
     const text = await generateFromAvailableProviders(prompt)
     return text.trim() || "Solid attempt; tighten your logic around edge cases and test again."
   } catch (error) {
-    console.error("reviewCode failed:", error)
     return "Solid attempt; tighten your logic around edge cases and test again."
   }
 }
@@ -281,7 +308,6 @@ Return ONLY valid JSON:
       features
     }
   } catch (error) {
-    console.error("classifySpam failed:", error)
     return {
       label: "Not Spam",
       confidence: 0,
@@ -290,4 +316,3 @@ Return ONLY valid JSON:
     }
   }
 }
-
