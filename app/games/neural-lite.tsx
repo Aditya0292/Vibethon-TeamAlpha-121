@@ -31,7 +31,7 @@ type Network = {
 }
 
 function buildNet(layers: 1 | 2): Network {
-  const h = 8
+  const h = 3 // changed from 8 to 3 to match UI (H1, H2, H3)
   if (layers === 1) {
     return {
       w1: randomWeights(h, 2),
@@ -72,7 +72,6 @@ function trainStep(net: Network, act: ActivationFn, dataset: Dataset, lr = 0.15)
     const label = dataset === "circle" ? circleLabel(x, y) : crossLabel(x, y)
     const pred = forward(net, x, y, act)
     loss += -label * Math.log(pred + 1e-8) - (1 - label) * Math.log(1 - pred + 1e-8)
-    // Nudge all weights by gradient (simplified sgd)
     const err = pred - label
     net.w1.forEach(row => { row[0] -= lr * err * x * 0.1; row[1] -= lr * err * y * 0.1 })
     net.b1.forEach((_, i) => { net.b1[i] -= lr * err * 0.05 })
@@ -104,31 +103,43 @@ export default function NeuralLite() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
     const W = canvas.width, H = canvas.height
-    const step = 5
+    
+    // Clear and draw scanlines
+    ctx.clearRect(0,0,W,H)
+    ctx.fillStyle = "rgba(105, 246, 184, 0.02)"
+    for(let y=0; y<H; y+=4) { ctx.fillRect(0, y, W, 1) }
+
+    if (!running && epoch === 0) return // Don't draw heatmap before start
+
+    const step = 8 // larger step for pixelated style
+    ctx.globalCompositeOperation = "source-over"
+    
     for (let py = 0; py < H; py += step) {
       for (let px = 0; px < W; px += step) {
         const x = (px / W) * 2 - 1
         const y = (py / H) * 2 - 1
         const pred = forward(netRef.current, x, y, act)
-        const r = Math.round(249 * pred + 147 * (1 - pred))
-        const g = Math.round(115 * pred + 51 * (1 - pred))
-        const b = Math.round(22 * pred + 234 * (1 - pred))
-        ctx.fillStyle = `rgba(${r},${g},${b},0.7)`
+        // Primary vs Error colors based on prediction
+        const r = Math.round(105 * pred + 255 * (1 - pred))
+        const g = Math.round(246 * pred + 84 * (1 - pred))
+        const b = Math.round(184 * pred + 73 * (1 - pred))
+        ctx.fillStyle = `rgba(${r},${g},${b},0.15)`
         ctx.fillRect(px, py, step, step)
       }
     }
+    
     // Draw decision boundary overlay dots
-    const label = dataset === "circle" ? circleLabel : crossLabel
-    for (let i = 0; i < 80; i++) {
+    const MathLabel = dataset === "circle" ? circleLabel : crossLabel
+    for (let i = 0; i < 40; i++) {
       const nx = Math.random(), ny = Math.random()
       const lx = nx * 2 - 1, ly = ny * 2 - 1
-      const cls = label(lx, ly)
+      const cls = MathLabel(lx, ly)
       ctx.beginPath()
-      ctx.arc(nx * W, ny * H, 4, 0, Math.PI * 2)
-      ctx.fillStyle = cls === 1 ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.5)"
+      ctx.fillRect(nx * W - 2, ny * H - 2, 4, 4)
+      ctx.fillStyle = cls === 1 ? "rgba(105,246,184,0.6)" : "rgba(255,84,73,0.6)"
       ctx.fill()
     }
-  }, [act, dataset])
+  }, [act, dataset, running, epoch])
 
   const stop = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -150,7 +161,7 @@ export default function NeuralLite() {
       setEpoch(ep)
       setLoss(l)
       drawHeatMap()
-      if (ep >= 200) stop()
+      if (ep >= 100) stop() // Max epochs 100
     }, 40)
   }, [layers, act, dataset, drawHeatMap, stop])
 
@@ -161,74 +172,128 @@ export default function NeuralLite() {
   }, [running, drawHeatMap])
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      {/* Controls */}
-      <div className="flex flex-wrap justify-center gap-4">
-        <div className="flex flex-col gap-1">
-          <label className="text-slate-400 text-xs font-medium uppercase tracking-wider">Hidden Layers</label>
-          <div className="flex gap-2">
-            {([1, 2] as const).map(l => (
-              <button key={l} onClick={() => { setLayers(l); stop() }}
-                className={`px-5 py-2 rounded-lg font-semibold text-sm transition-all ${layers === l ? "bg-purple-600 text-white shadow-lg shadow-purple-500/30" : "bg-slate-700 text-slate-300 hover:bg-slate-600"}`}
-              >{l}</button>
-            ))}
+    <div className="flex flex-col gap-0 w-full relative">
+      
+      {/* Visual Workspace Container */}
+      <div className="relative w-full h-[420px] bg-[#040812] border border-outline-variant/20 overflow-hidden flex items-center justify-center">
+        {/* Canvas for Heatmap */}
+        <canvas ref={canvasRef} width={800} height={420} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+        
+        {/* DOM-based Neural Network Visualizer Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center p-8 pointer-events-none z-10 w-full max-w-2xl mx-auto">
+          {/* SVG for connecting lines */}
+          <svg className="absolute inset-0 w-full h-full" style={{ zIndex: -1 }}>
+             {/* Lines from Input to Hidden */}
+             <line x1="20%" y1="40%" x2="50%" y2="25%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             <line x1="20%" y1="40%" x2="50%" y2="50%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             <line x1="20%" y1="40%" x2="50%" y2="75%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             
+             <line x1="20%" y1="60%" x2="50%" y2="25%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             <line x1="20%" y1="60%" x2="50%" y2="50%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             <line x1="20%" y1="60%" x2="50%" y2="75%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+
+             {/* Lines from Hidden to Output */}
+             <line x1="50%" y1="25%" x2="80%" y2="50%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             <line x1="50%" y1="50%" x2="80%" y2="50%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+             <line x1="50%" y1="75%" x2="80%" y2="50%" stroke="rgba(105,246,184,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+          </svg>
+
+          {/* Node Layers */}
+          <div className="w-full flex justify-between items-center px-[20%]">
+             {/* Input Layer */}
+             <div className="flex flex-col gap-12">
+               <div className="w-10 h-10 border-2 border-primary/40 bg-surface-container flex items-center justify-center font-mono text-[10px] text-primary shadow-[0_0_10px_rgba(105,246,184,0.1)]">I1</div>
+               <div className="w-10 h-10 border-2 border-primary/40 bg-surface-container flex items-center justify-center font-mono text-[10px] text-primary shadow-[0_0_10px_rgba(105,246,184,0.1)]">I2</div>
+             </div>
+
+             {/* Hidden Layer 1 */}
+             <div className="flex flex-col gap-6">
+               <div className={`w-10 h-10 border-2 border-primary bg-black flex items-center justify-center font-mono text-[10px] text-primary ${running ? 'animate-pulse shadow-[0_0_15px_rgba(105,246,184,0.4)]' : ''}`}>H1</div>
+               <div className={`w-10 h-10 border-2 border-primary bg-black flex items-center justify-center font-mono text-[10px] text-primary ${running ? 'animate-pulse shadow-[0_0_15px_rgba(105,246,184,0.4)]' : ''}`} style={{ animationDelay: "100ms" }}>H2</div>
+               <div className={`w-10 h-10 border-2 border-primary bg-black flex items-center justify-center font-mono text-[10px] text-primary ${running ? 'animate-pulse shadow-[0_0_15px_rgba(105,246,184,0.4)]' : ''}`} style={{ animationDelay: "200ms" }}>H3</div>
+             </div>
+
+             {/* Output Layer */}
+             <div className="flex flex-col">
+               <div className={`w-10 h-10 border-2 border-secondary bg-[#1a1400] flex items-center justify-center font-mono text-[10px] text-secondary ${running ? 'animate-pulse shadow-[0_0_15px_rgba(249,115,22,0.4)]' : ''}`}>O1</div>
+             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-slate-400 text-xs font-medium uppercase tracking-wider">Activation</label>
-          <div className="flex gap-2">
-            {(["relu", "sigmoid"] as const).map(a => (
-              <button key={a} onClick={() => { setAct(a); stop() }}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${act === a ? "bg-cyan-600 text-white shadow-lg shadow-cyan-500/30" : "bg-slate-700 text-slate-300 hover:bg-slate-600"}`}
-              >{a.charAt(0).toUpperCase() + a.slice(1)}</button>
-            ))}
-          </div>
+        {/* Floating Training Status Box */}
+        <div className="absolute right-6 bottom-6 z-20 bg-surface-container-highest border border-outline-variant/30 p-4 w-64 shadow-2xl hidden md:block group">
+           <h4 className="font-headline font-bold text-xs uppercase tracking-widest text-on-surface mb-3 border-b border-outline-variant/30 pb-2">Training Status</h4>
+           
+           <div className="mb-4">
+             <div className="flex justify-between font-mono text-[9px] uppercase text-on-surface-variant mb-1">
+               <span>Epoch_Progress</span>
+               <span className="text-secondary">{epoch}%</span>
+             </div>
+             <div className="flex gap-0.5 h-2">
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <div key={i} className={`flex-1 ${i < (epoch/100 * 20) ? "bg-secondary" : "bg-surface-container-high"}`} />
+                ))}
+             </div>
+           </div>
+
+           <div className="grid grid-cols-2 gap-2">
+              <div className="bg-surface-container flex flex-col p-2 border border-outline-variant/20">
+                <span className="font-mono text-[8px] uppercase text-on-surface-variant">Loss</span>
+                <span className="font-mono text-xs text-error mt-0.5">{loss !== null ? loss.toFixed(3) : "---"}</span>
+              </div>
+              <div className="bg-surface-container flex flex-col p-2 border border-outline-variant/20">
+                <span className="font-mono text-[8px] uppercase text-on-surface-variant">Accuracy</span>
+                <span className="font-mono text-xs text-primary mt-0.5">
+                  {loss !== null ? Math.min(99.9, Math.max(0, (1 - loss)*100)).toFixed(1) + "%" : "---"}
+                </span>
+              </div>
+           </div>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-slate-400 text-xs font-medium uppercase tracking-wider">Dataset</label>
-          <div className="flex gap-2">
-            {(["circle", "cross"] as const).map(d => (
-              <button key={d} onClick={() => { setDataset(d); stop() }}
-                className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${dataset === d ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30" : "bg-slate-700 text-slate-300 hover:bg-slate-600"}`}
-              >{d.charAt(0).toUpperCase() + d.slice(1)}</button>
-            ))}
-          </div>
-        </div>
       </div>
 
-      {/* Canvas */}
-      <div className="relative rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl shadow-black/50">
-        <canvas ref={canvasRef} width={520} height={420} className="bg-slate-900 block" />
-        {!running && epoch === 0 && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <p className="text-slate-400 text-sm">Press <span className="text-green-400 font-bold">Go</span> to start training</p>
+      {/* Bottom Control Bar */}
+      <div className="bg-surface-container-high border-x border-b border-outline-variant/20 flex flex-col md:flex-row items-center justify-between p-3 gap-4">
+        
+        {/* Settings Toggles */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 text-on-surface-variant font-mono text-[10px] uppercase">
+          
+          {/* Activation */}
+          <div className="flex items-center gap-2">
+            <span className="opacity-60 hidden md:inline">ACT:</span>
+            <div className="flex border border-outline-variant/30">
+               <button onClick={() => { setAct("relu"); stop() }} className={`px-2 py-1 transition-all ${act === "relu" ? "bg-primary/20 text-primary" : "hover:text-primary hover:bg-surface-container"}`}>RELU</button>
+               <button onClick={() => { setAct("sigmoid"); stop() }} className={`px-2 py-1 border-l border-outline-variant/30 transition-all ${act === "sigmoid" ? "bg-primary/20 text-primary" : "hover:text-primary hover:bg-surface-container"}`}>SIGMD</button>
+            </div>
           </div>
-        )}
-      </div>
 
-      {/* Stats + Go */}
-      <div className="flex items-center gap-6">
-        <button onClick={running ? stop : start}
-          className={`px-8 py-3 rounded-xl font-bold text-base transition-all ${running
-            ? "bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-500/30"
-            : "bg-green-600 text-white hover:bg-green-500 shadow-lg shadow-green-500/30 scale-105"}`}
+          {/* Dataset */}
+          <div className="flex items-center gap-2">
+            <span className="opacity-60 hidden md:inline">DATA:</span>
+            <div className="flex border border-outline-variant/30">
+               <button onClick={() => { setDataset("circle"); stop() }} className={`px-2 py-1 transition-all ${dataset === "circle" ? "bg-primary/20 text-primary" : "hover:text-primary hover:bg-surface-container"}`}>CIRCLE</button>
+               <button onClick={() => { setDataset("cross"); stop() }} className={`px-2 py-1 border-l border-outline-variant/30 transition-all ${dataset === "cross" ? "bg-primary/20 text-primary" : "hover:text-primary hover:bg-surface-container"}`}>CROSS</button>
+            </div>
+          </div>
+
+          <div className="md:hidden w-full h-[1px] bg-outline-variant/20" />
+          
+        </div>
+
+        {/* Primary Action Button */}
+        <button
+          onClick={running ? stop : start}
+          className={`shrink-0 font-headline uppercase font-bold text-sm px-8 py-2 transition-all ${
+            running 
+              ? "bg-error hover:bg-error/80 text-white game-corner-br" 
+              : "bg-primary hover:bg-primary-dim text-on-primary game-corner-br"
+          }`}
         >
-          {running ? "⏹ Stop" : "▶ Go"}
+          {running ? "Halt Training" : "Initiate Run"}
         </button>
-        <div className="text-sm text-slate-400 space-y-0.5">
-          <div>Epoch: <span className="text-white font-semibold">{epoch}</span> / 200</div>
-          {loss !== null && <div>Loss: <span className="text-cyan-400 font-semibold">{loss.toFixed(3)}</span></div>}
-        </div>
+
       </div>
 
-      <div className="flex gap-4 text-xs text-slate-500">
-        <span><span className="inline-block w-3 h-3 rounded-full bg-white mr-1 align-middle" />Positive class</span>
-        <span><span className="inline-block w-3 h-3 rounded-full bg-black border border-slate-600 mr-1 align-middle" />Negative class</span>
-        <span><span className="inline-block w-3 h-3 bg-orange-500 mr-1 align-middle" />Predicted positive</span>
-        <span><span className="inline-block w-3 h-3 bg-purple-700 mr-1 align-middle" />Predicted negative</span>
-      </div>
     </div>
   )
 }
