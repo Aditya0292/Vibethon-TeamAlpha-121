@@ -1,5 +1,4 @@
 "use client"
-import { useState } from "react"
 import KNNVisualizer from "./knn-visualizer"
 import NeuralLite from "./neural-lite"
 import Link from 'next/link'
