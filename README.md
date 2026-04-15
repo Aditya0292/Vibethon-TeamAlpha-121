@@ -13,6 +13,47 @@ NeuroFlow is an institutional-grade, military-tactical styled web application bu
 
 ---
 
+## 🏛️ System Architecture
+
+NeuroFlow is architected with a decoupled approach, ensuring high performance and scalability:
+
+- **Frontend (Application Layer):** Built on Next.js 14, leveraging React Server Components for optimized data fetching and Client Components for high-interactivity tactical modules (Canvas, IDE, etc.).
+- **Tactical Core (AI Layer):** A sophisticated routing system that interfaces with multiple LLM providers (Gemini, Grok, OpenRouter). This acts as the "Game Master" / `SYN_INTEL`, providing real-time feedback and grading.
+- **Data Persistence (Infra Layer):** Supabase handles the heavy lifting for real-time data sync, user authentication, and relational storage of operator metrics (XP, completion states).
+- **Security:** Strict Row Level Security (RLS) is implemented on the database level to ensure operator data isolation.
+
+---
+
+## 📂 Project Structure
+
+```bash
+vibeathon-teamalpha/
+├── app/                    # Next.js App Router (Routes & Layouts)
+│   ├── api/               # API Endpoints (Code evaluation, AI proxies)
+│   ├── auth/              # Authentication flows (Login, Callback)
+│   ├── code-lab/          # Integrated Development Environment
+│   ├── dashboard/         # Core Operator Hub & Analytics
+│   ├── games/             # Tactical Modules & Simulations (KNN, Neural Lite)
+│   ├── quiz/              # Missions & Dataset evaluations
+│   ├── layout.tsx         # Global Frame & Scanline overlays
+│   └── globals.css        # Tactical Design System & Utility tokens
+├── components/             # Reusable UI Architecture
+│   ├── dashboard/         # Dashboard-specific units (Sidebar, SkillRadar)
+│   ├── AccessTerminal.tsx # Entry Authentication UI
+│   ├── HeroContent.tsx    # Primary Landing animations
+│   └── Navbar.tsx         # Landing Page navigation
+├── lib/                    # Shared Utilities & Logic Cores
+│   ├── gemini.ts          # SYN_INTEL AI Routing Logic
+│   ├── supabase.ts        # Database Client initialization
+│   ├── xp.ts              # Operator Progression logic
+│   └── auth.ts            # Session management utilities
+├── public/                 # Static Assets (Images, Icons)
+├── tailwind.config.ts      # Tactical Theme configuration
+└── README.md               # Operations Manual
+```
+
+---
+
 ## 🛠️ Development Phases
 
 ### Phase 1: Foundation & Structural Aesthetic
