@@ -7,6 +7,7 @@ const navItems = [
   { label: "Dashboard", icon: "dashboard", href: "/dashboard" },
   { label: "Code Lab", icon: "terminal", href: "/code-lab" },
   { label: "Neural Hub", icon: "hub", href: "/games" },
+  { label: "Quiz Arena", icon: "psychology", href: "/quiz" },
   { label: "Comms", icon: "forum", href: "/dashboard/comms" },
 ];
 

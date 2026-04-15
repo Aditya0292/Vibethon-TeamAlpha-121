@@ -225,7 +225,7 @@ export default function NeuralLite() {
           <label className="text-[11px] font-mono text-primary/60 uppercase tracking-[0.2em]">EXTRACT_FEATURES</label>
           <div className="flex flex-wrap gap-2 max-w-[340px]">
             {Object.keys(features).map(f => (
-              <button key={f} onClick={() => { setFeatures(prev => ({...prev, [f]: !prev[(f as any)]})); setRunning(false); }} className={`px-3 py-1.5 text-[10px] font-mono uppercase border transition-all ${features[f as keyof typeof features] ? "bg-primary/10 border-primary text-primary" : "border-outline-variant/20 text-on-surface-variant opacity-40 hover:opacity-100"}`}>{f}</button>
+              <button key={f} onClick={() => { setFeatures(prev => ({...prev, [f]: !prev[f as keyof typeof features]})); setRunning(false); }} className={`px-3 py-1.5 text-[10px] font-mono uppercase border transition-all ${features[f as keyof typeof features] ? "bg-primary/10 border-primary text-primary" : "border-outline-variant/20 text-on-surface-variant opacity-40 hover:opacity-100"}`}>{f}</button>
             ))}
           </div>
         </div>

@@ -9,7 +9,8 @@ NeuroFlow is an institutional-grade, military-tactical styled web application bu
 - **Framework:** Next.js 14.2 (App Router, Client & Server Components)
 - **Styling:** TailwindCSS (Custom scanline overlays, neon accents, tactical UI patterns)
 - **Backend/Auth:** Supabase Setup (PostgreSQL, Row Level Security, Auth)
-- **AI Core (`SYN_INTEL`):** Multi-model routing utilizing Google Gemini, OpenRouter, and Grok for real-time code evaluation.
+- **Code Execution:** Piston API (Sandboxed Python 3.10 runtime)
+- **AI Core (`SYN_INTEL`):** Multi-model ensemble utilizing **Google Gemini 2.0 Flash**, **OpenRouter**, and **xAI Grok** for real-time code evaluation and assistance.
 
 ---
 
@@ -18,7 +19,8 @@ NeuroFlow is an institutional-grade, military-tactical styled web application bu
 NeuroFlow is architected with a decoupled approach, ensuring high performance and scalability:
 
 - **Frontend (Application Layer):** Built on Next.js 14, leveraging React Server Components for optimized data fetching and Client Components for high-interactivity tactical modules (Canvas, IDE, etc.).
-- **Tactical Core (AI Layer):** A sophisticated routing system that interfaces with multiple LLM providers (Gemini, Grok, OpenRouter). This acts as the "Game Master" / `SYN_INTEL`, providing real-time feedback and grading.
+- **Tactical Core (AI Layer):** A sophisticated ensemble routing system that interfaces with multiple LLM providers (Gemini, Grok, OpenRouter). This acts as the "Game Master" / `SYN_INTEL`, providing real-time feedback, code suggestions, and grading.
+- **Execution Sandbox:** Integrates with the Piston API to allow operators to run actual Python ML code safely in a sandboxed environment.
 - **Data Persistence (Infra Layer):** Supabase handles the heavy lifting for real-time data sync, user authentication, and relational storage of operator metrics (XP, completion states).
 - **Security:** Strict Row Level Security (RLS) is implemented on the database level to ensure operator data isolation.
 
@@ -29,24 +31,23 @@ NeuroFlow is architected with a decoupled approach, ensuring high performance an
 ```bash
 vibeathon-teamalpha/
 ├── app/                    # Next.js App Router (Routes & Layouts)
-│   ├── api/               # API Endpoints (Code evaluation, AI proxies)
+│   ├── api/               # API Endpoints (Code execution, AI assistance, Quizes)
 │   ├── auth/              # Authentication flows (Login, Callback)
-│   ├── code-lab/          # Integrated Development Environment
+│   ├── code-lab/          # Integrated Tactical IDE with Live AI Assist
 │   ├── dashboard/         # Core Operator Hub & Analytics
 │   ├── games/             # Tactical Modules & Simulations (KNN, Neural Lite)
-│   ├── quiz/              # Missions & Dataset evaluations
+│   ├── quiz/              # Quiz Arena (Cognitive Profiling & Assessment)
 │   ├── layout.tsx         # Global Frame & Scanline overlays
 │   └── globals.css        # Tactical Design System & Utility tokens
 ├── components/             # Reusable UI Architecture
 │   ├── dashboard/         # Dashboard-specific units (Sidebar, SkillRadar)
 │   ├── AccessTerminal.tsx # Entry Authentication UI
 │   ├── HeroContent.tsx    # Primary Landing animations
-│   └── Navbar.tsx         # Landing Page navigation
 ├── lib/                    # Shared Utilities & Logic Cores
-│   ├── gemini.ts          # SYN_INTEL AI Routing Logic
-│   ├── supabase.ts        # Database Client initialization
+│   ├── gemini.ts          # SYN_INTEL AI Ensemble Logic
+│   ├── piston.ts          # Code execution & ML Mission definitions
+│   ├── game-constants.ts  # Shared level & dataset telemetry
 │   ├── xp.ts              # Operator Progression logic
-│   └── auth.ts            # Session management utilities
 ├── public/                 # Static Assets (Images, Icons)
 ├── tailwind.config.ts      # Tactical Theme configuration
 └── README.md               # Operations Manual
@@ -57,60 +58,62 @@ vibeathon-teamalpha/
 ## 🛠️ Development Phases
 
 ### Phase 1: Foundation & Structural Aesthetic
-The initial objective was to establish the immersive, tactical visual language of the application and set up the robust full-stack foundation.
+Establish the immersive, tactical visual language and set up the robust full-stack foundation.
 - **Architecture Setup:** Bootstrapped the Next.js 14 app directory with strict TypeScript adherence.
-- **UI/UX Design Language:** Implemented the "Liquid Glass" aesthetic—a mix of dark surfaces, glowing primary borders (`#69f6b8`), custom scrollbars, and a persistent CRT scanline overlay.
+- **UI/UX Design Language:** Implemented the "Liquid Glass" aesthetic—a mix of dark surfaces, glowing primary borders (`#69f6b8`), and persistent CRT scanline overlays.
 - **Authentication:** Integrated Supabase for secure user sign-ups and session management.
-- **Landing Page Integration:** Built the root access terminal (`/`) featuring the `HeroContent` and `AccessTerminal` components to gate entry.
 
 ### Phase 2: Command Center Dashboard
-Transitioning from the landing page, we established the centralized OS hub where the operator tracks their progression.
-- **Global Navigation:** Developed a persistent, dynamic `Sidebar` component that tracks active routes via `usePathname` and houses core navigation links.
-- **Analytics & Progression:** Built the `DashboardPage` featuring grids, the `SkillRadar` data visualization, `LevelProgress` tracking, and `MissionLog` history.
-- **Responsive Layouts:** Ensured the dashboard grid degrades gracefully on mobile while maintaining its institutional density on desktop.
+Established the centralized OS hub where the operator tracks their progression.
+- **Global Navigation:** Developed a persistent, dynamic `Sidebar` component used unilaterally across all modules.
+- **Analytics & Progression:** Built the `DashboardPage` featuring grids, the `SkillRadar` data visualization, and `MissionLog` history.
 
 ### Phase 3: Neural Hub (Interactive Tactical Games)
-We built out the **Armory (/games)**—a repository of interactive widgets simulating data science and machine learning tasks.
-- **KNN Visualizer (Module 01):** An interactive canvas allowing the operator to map K-Nearest Neighbor algorithms visually in real-time.
-- **Neural Lite (Module 02):** A lightweight Neural Network playground.
-- **Integration:** Wrapped these visualizations in tactical border containers and integrated them safely into the main centralized UI loop.
+Built out the **Armory (/games)**—a repository of interactive widgets simulating data science tasks.
+- **KNN Visualizer:** Interactive canvas for mapping K-Nearest Neighbor algorithms visually.
+- **Neural Lite:** A lightweight, interactive Neural Network architecture playground.
 
 ### Phase 4: Synthesis & Code Lab Integration
-The introduction of a live, intelligent code environment for users to complete missions and test architectures.
-- **Integrated IDE:** Created the `/code-lab` interface featuring a writable, syntax-highlighted editor textarea.
-- **SYN_INTEL Comms:** Built a built-in terminal communication window that responds to operator commands (`START`, `STOP`, `EXECUTE`, `HELP`).
-- **Real-Time AI Validation:** Created the `/api/code-check` route. When code is "Executed", this API proxies the operator's code to Gemini/OpenRouter logic cores to grade initialization sequences (e.g., TensorFlow layer optimizations).
+Introduction of a live, intelligent code environment for users to complete real ML missions.
+- **Integrated IDE:** Created the `/code-lab` interface featuring a syntax-highlighted editor.
+- **SYN_INTEL Comms:** Built-in terminal communication window that responds to command strings (`START`, `RUN`, `HINT`, `SUGGEST`).
+- **Python Execution:** Integrated the Piston API to execute actual Python ML code (Gradient Descent, MSE Loss) in real-time.
 
-### Phase 5: Routing Unification & Institutional Polish
-Finalizing the architecture to verify a seamless, bug-free operator experience.
-- **Layout Unification:** Removed redundant, isolated sidebars native to early versions of `/code-lab` and `/games`, effectively injecting the global Dashboard `Sidebar` unilaterally across the app.
-- **Bug Eradication:** Addressed hydration errors, JSX text escaping bugs (`\`` and `\${}`), and lingering Git merge conflicts.
-- **Aesthetic Standardization:** Ensured all buttons, dialog boxes, and grid borders perfectly adhered to the unified military-tactical design guidelines.
+### Phase 5: AI Ensemble & Live Assistance
+The final push to make the platform a truly "intelligent" learning environment.
+- **AI Ensemble:** Integrated a multi-provider fallback system switching between **Gemini, OpenRouter, and Grok**.
+- **Live Assistance:** Added `SUGGEST` (code refactoring) and `HINT` (contextual pointers) triggers to the Code Lab.
+- **Quiz Arena:** Launched the "Cognitive Profiling" unit with AI-generated tactical quizzes across `Beginner`, `Intermediate`, and `Advanced` threat levels.
+
+### Phase 6: Production Readiness & Deployment
+- **Type Safety Pass:** Resolved all TypeScript indexing and React dependency warnings.
+- **Build Optimization:** Standardized API exports and shared constants for clean production builds.
+- **Vercel Readiness:** Confirmed 0-error build state for seamless deployment to Vercel/Cloud infrastructure.
 
 ---
 
 ## 🚀 Getting Started
 
 1. **Install Dependencies:**
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 2. **Environment Configuration:**
-   Create a \`.env.local\` file in the root directory and ensure the following keys are provided:
-   \`\`\`env
+   Create a `.env.local` file and provide the following tactical credentials:
+   ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    GEMINI_API_KEY=your_gemini_key
    OPENROUTER_API_KEY=your_openrouter_key
    GROK_API_KEY=your_grok_key
-   \`\`\`
+   ```
 
 3. **Deploy Terminal:**
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
-   Navigate your browser to \`http://localhost:3000\` to establish uplink with the Command Center.
+   ```
+   Navigate your browser to `http://localhost:3000` to establish uplink with the Command Center.
 
 ---
-*SYS.STATUS: ONLINE // UPLINK: SECURE*
+*SYS.STATUS: OPERATIONAL // UPLINK: SECURE // MISSION_READY*

@@ -66,12 +66,12 @@ export function getAllModules(): LearningModule[] {
 }
 
 export function getModuleById(id: string): LearningModule | undefined {
-  const module = modules.find((m) => m.id === id)
-  if (!module) return undefined
+  const foundModule = modules.find((m) => m.id === id)
+  if (!foundModule) return undefined
   return {
-    ...module,
-    concepts: [...module.concepts],
-    examples: [...module.examples]
+    ...foundModule,
+    concepts: [...foundModule.concepts],
+    examples: [...foundModule.examples]
   }
 }
 

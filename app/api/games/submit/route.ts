@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { GAME_LEVELS } from "@/app/api/games/route"
+import { GAME_LEVELS } from "@/lib/game-constants"
 import { getUser, updateUser } from "@/lib/store"
 import { awardXP, checkAndAwardBadges } from "@/lib/xp"
 
@@ -16,7 +16,7 @@ type SubmitBody = {
 
 function findLevel(game: string, levelId: string) {
   if (game !== "knn" && game !== "neural_lite") return undefined
-  return GAME_LEVELS[game].find((level) => level.id === levelId)
+  return (GAME_LEVELS[game as keyof typeof GAME_LEVELS] as any[]).find((level) => level.id === levelId)
 }
 
 export async function POST(req: Request) {
@@ -86,4 +86,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to submit game result." }, { status: 500 })
   }
 }
-

@@ -162,7 +162,7 @@ export default function CodeLabPage() {
       if (output) {
          setMessages((prev) => [...prev, {
             sender: "Syn_Intel",
-            time: new Date().toLocaleTimeString([], { hour: '1-digit', minute: '2-digit' }),
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             text: `>>> OUT:\n${output}`,
             type: "info",
           }]);
@@ -171,7 +171,7 @@ export default function CodeLabPage() {
       if (error) {
          setMessages((prev) => [...prev, {
             sender: "Syn_Intel",
-            time: new Date().toLocaleTimeString([], { hour: '1-digit', minute: '2-digit' }),
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             text: `>>> ERR:\n${error}`,
             type: "error",
           }]);
@@ -314,7 +314,7 @@ export default function CodeLabPage() {
                     <div className="p-6 flex flex-col gap-5 flex-1 overflow-y-auto custom-scrollbar">
                         {messages.map((m, i) => (
                             <div key={i} className={`flex flex-col gap-1.5 ${m.sender === "Operator" ? "items-end" : "items-start"}`}>
-                                <div className="font-mono text-[8px] text-on-surface-variant/60 uppercase">{m.sender} // {m.time}</div>
+                                <div className="font-mono text-[8px] text-on-surface-variant/60 uppercase">{m.sender} {"//"} {m.time}</div>
                                 <div className={`border font-mono text-[11px] p-4 max-w-[90%] whitespace-pre-wrap ${m.sender === "Operator" ? "bg-surface/20 border-outline-variant/10" : (m.type === 'error' ? 'bg-error/10 border-error/20 text-error' : (m.type === 'success' ? 'bg-primary/10 border-primary/20 text-primary' : 'bg-surface/40 border-outline-variant/10'))}`}>
                                     {m.text}
                                 </div>

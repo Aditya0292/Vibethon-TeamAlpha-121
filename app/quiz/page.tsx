@@ -1,38 +1,61 @@
 "use client"
 import QuizBlitz from "./quiz-blitz"
+import Sidebar from "@/components/dashboard/Sidebar";
 
 export default function QuizPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-6 md:p-10">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="bg-surface text-on-surface font-body min-h-screen flex overflow-x-hidden">
+      {/* Scanline overlay */}
+      <div className="pointer-events-none fixed inset-0 z-50 scanlines mix-blend-screen" />
 
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-            ⚡ Quiz Arena
-          </h1>
-          <p className="text-slate-400 text-sm">AI-generated · 5 questions · 15 seconds each · Earn XP</p>
+      <Sidebar />
+
+      <main className="flex-1 md:ml-72 p-6 lg:p-10 flex flex-col min-h-screen relative z-10">
+        <header className="mb-10 flex justify-between items-end border-b border-outline-variant/10 pb-6 uppercase">
+          <div>
+            <h1 className="text-4xl font-headline font-black text-on-surface tracking-widest flex items-center gap-3">
+              Quiz Arena <span className="text-primary animate-pulse">{"//"}</span>
+            </h1>
+            <p className="font-mono text-[10px] text-secondary tracking-[0.4em] mt-3">
+              Cognitive_Profiling {"//"} Neural_Assessment_Unit
+            </p>
+          </div>
+          <div className="flex gap-8 font-mono text-[10px]">
+             <div className="flex flex-col items-end">
+                <span className="text-on-surface-variant">Unit_Status</span>
+                <span className="text-primary">ACTIVE</span>
+             </div>
+             <div className="flex flex-col items-end">
+                <span className="text-on-surface-variant">Assessment_Type</span>
+                <span className="text-secondary text-right">AI_ENCORE</span>
+             </div>
+          </div>
+        </header>
+
+        <div className="max-w-4xl mx-auto w-full relative">
+           {/* Decorative elements */}
+           <div className="absolute -top-6 -left-6 w-12 h-12 border-t-2 border-l-2 border-primary/30" />
+           <div className="absolute -bottom-6 -right-6 w-12 h-12 border-b-2 border-r-2 border-primary/30" />
+
+           <div className="glass-panel border border-outline-variant/15 p-8 lg:p-12 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-3 opacity-20 pointer-events-none">
+                  <span className="material-symbols-outlined text-[64px] text-primary">analytics</span>
+              </div>
+              <QuizBlitz />
+           </div>
         </div>
 
-        {/* Badge row */}
-        <div className="flex justify-center gap-3 flex-wrap">
-          {[
-            { icon: "🤖", text: "AI-generated questions" },
-            { icon: "⏱", text: "15s per question" },
-            { icon: "⚡", text: "+50 XP per correct answer" },
-          ].map(b => (
-            <span key={b.text} className="flex items-center gap-1.5 text-xs text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full">
-              {b.icon} {b.text}
-            </span>
-          ))}
+        <div className="mt-12 max-w-4xl mx-auto flex justify-between items-center text-[10px] font-mono text-on-surface-variant uppercase tracking-widest px-2">
+            <div className="flex items-center gap-2">
+                <span className="size-1.5 bg-primary/40 rounded-full" />
+                <span>Synchronizing with Syn_Intel Core...</span>
+            </div>
+            <div className="flex gap-4">
+                <span>Ref: AI_QUIZ_V10.2</span>
+                <span>Port: 8081</span>
+            </div>
         </div>
-
-        {/* Quiz component */}
-        <div className="rounded-2xl bg-slate-900/60 border border-slate-800 p-6">
-          <QuizBlitz />
-        </div>
-
-      </div>
-    </main>
+      </main>
+    </div>
   )
 }
