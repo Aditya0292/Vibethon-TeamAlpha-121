@@ -10,10 +10,10 @@ const seededUsers = new Map<string, User>([
       email: "arjun@demo.com",
       xp: 1850,
       level: "Engineer",
-      streak: 7,
       badges: ["First Step", "Code Breaker", "Game On", "On Fire"],
-      completedModules: ["linear-regression", "neural-networks", "decision-trees"],
-      lastLogin: new Date().toISOString()
+      completed_msns: ["linear-regression", "neural-networks", "decision-trees"],
+      skill_vector: { python: 0.8, tf: 0.7, pytorch: 0.6, nlp: 0.5, cv: 0.4, data_eng: 0.7 },
+      updated_at: new Date().toISOString()
     }
   ],
   [
@@ -24,10 +24,10 @@ const seededUsers = new Map<string, User>([
       email: "priya@demo.com",
       xp: 1200,
       level: "Practitioner",
-      streak: 4,
       badges: ["First Step", "On Fire"],
-      completedModules: ["linear-regression", "decision-trees"],
-      lastLogin: new Date().toISOString()
+      completed_msns: ["linear-regression", "decision-trees"],
+      skill_vector: { python: 0.6, tf: 0.5, pytorch: 0.4, nlp: 0.3, cv: 0.2, data_eng: 0.5 },
+      updated_at: new Date().toISOString()
     }
   ],
   [
@@ -38,10 +38,10 @@ const seededUsers = new Map<string, User>([
       email: "rohan@demo.com",
       xp: 900,
       level: "Practitioner",
-      streak: 2,
       badges: ["First Step", "Code Breaker"],
-      completedModules: ["linear-regression"],
-      lastLogin: new Date().toISOString()
+      completed_msns: ["linear-regression"],
+      skill_vector: { python: 0.5, tf: 0.4, pytorch: 0.3, nlp: 0.2, cv: 0.1, data_eng: 0.4 },
+      updated_at: new Date().toISOString()
     }
   ],
   [
@@ -52,10 +52,10 @@ const seededUsers = new Map<string, User>([
       email: "sneha@demo.com",
       xp: 550,
       level: "Learner",
-      streak: 1,
       badges: ["First Step"],
-      completedModules: [],
-      lastLogin: new Date().toISOString()
+      completed_msns: [],
+      skill_vector: { python: 0.3, tf: 0.2, pytorch: 0.1, nlp: 0.1, cv: 0.1, data_eng: 0.2 },
+      updated_at: new Date().toISOString()
     }
   ],
   [
@@ -66,10 +66,10 @@ const seededUsers = new Map<string, User>([
       email: "dev@demo.com",
       xp: 280,
       level: "Learner",
-      streak: 1,
       badges: ["Game On"],
-      completedModules: [],
-      lastLogin: new Date().toISOString()
+      completed_msns: [],
+      skill_vector: { python: 0.2, tf: 0.1, pytorch: 0.1, nlp: 0.1, cv: 0.1, data_eng: 0.1 },
+      updated_at: new Date().toISOString()
     }
   ]
 ])
@@ -98,7 +98,8 @@ function cloneUser(user: User): User {
   return {
     ...user,
     badges: [...user.badges],
-    completedModules: [...user.completedModules]
+    completed_msns: [...user.completed_msns],
+    skill_vector: { ...user.skill_vector }
   }
 }
 
@@ -127,9 +128,12 @@ export function updateUser(id: string, updates: Partial<User>): User {
     ...existing,
     ...updates,
     badges: updates.badges ? [...updates.badges] : [...existing.badges],
-    completedModules: updates.completedModules
-      ? [...updates.completedModules]
-      : [...existing.completedModules]
+    completed_msns: updates.completed_msns
+      ? [...updates.completed_msns]
+      : [...existing.completed_msns],
+    skill_vector: updates.skill_vector
+      ? { ...updates.skill_vector }
+      : { ...existing.skill_vector }
   }
   users.set(id, updated)
   return cloneUser(updated)

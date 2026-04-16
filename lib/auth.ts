@@ -17,10 +17,17 @@ function ensureStoreUser(params: { email: string; name?: string | null; idHint?:
     email: params.email,
     xp: 0,
     level: "Beginner",
-    streak: 1,
     badges: [],
-    completedModules: [],
-    lastLogin: new Date().toISOString()
+    completed_msns: [],
+    skill_vector: {
+      python: 0.1,
+      tf: 0.1,
+      pytorch: 0.1,
+      nlp: 0.1,
+      cv: 0.1,
+      data_eng: 0.1
+    },
+    updated_at: new Date().toISOString()
   })
   return user
 }
@@ -65,7 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             name: (data.user.user_metadata?.name as string | undefined) ?? data.user.email,
             idHint: data.user.id
           })
-          updateUser(storeUser.id, { lastLogin: new Date().toISOString() })
+          updateUser(storeUser.id, { updated_at: new Date().toISOString() })
           return storeUser as unknown as Record<string, unknown>
         }
 
@@ -75,7 +82,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isValidPassword = await verifyUserPassword(email, password)
         if (!isValidPassword) return null
 
-        updateUser(user.id, { lastLogin: new Date().toISOString() })
+        updateUser(user.id, { updated_at: new Date().toISOString() })
 
         // Returned object becomes `token.user` via callbacks below.
         return user as unknown as Record<string, unknown>
@@ -92,7 +99,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         name: user.name,
         idHint: user.id
       })
-      updateUser(storeUser.id, { lastLogin: new Date().toISOString() })
+      updateUser(storeUser.id, { updated_at: new Date().toISOString() })
       return true
     },
     async jwt({ token, user }) {

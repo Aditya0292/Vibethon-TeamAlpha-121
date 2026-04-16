@@ -43,10 +43,17 @@ export async function POST(req: Request) {
       email,
       xp: 0,
       level: "Beginner",
-      streak: 1,
       badges: [],
-      completedModules: [],
-      lastLogin: new Date().toISOString()
+      completed_msns: [],
+      skill_vector: {
+        python: 0.1,
+        tf: 0.1,
+        pytorch: 0.1,
+        nlp: 0.1,
+        cv: 0.1,
+        data_eng: 0.1
+      },
+      updated_at: new Date().toISOString()
     })
     // Keep a local hash for fallback auth mode and local dev resilience.
     await setUserPassword(email, password)

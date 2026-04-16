@@ -77,9 +77,9 @@ export async function POST(req: Request) {
 
     updateUser(user.id, {
       level,
-      completedModules:
-        topics.length > 0 ? Array.from(new Set([...user.completedModules, ...topics])) : user.completedModules,
-      lastLogin: new Date().toISOString()
+      completed_msns:
+        topics.length > 0 ? Array.from(new Set([...user.completed_msns, ...topics])) : user.completed_msns,
+      updated_at: new Date().toISOString()
     })
 
     return NextResponse.json({

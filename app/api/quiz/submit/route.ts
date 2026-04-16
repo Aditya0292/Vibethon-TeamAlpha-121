@@ -72,7 +72,7 @@ export async function POST(req: Request) {
       xp: newXP,
       level: newLevel,
       badges: Array.from(new Set([...user.badges, ...badgesEarned])),
-      lastLogin: new Date().toISOString()
+      updated_at: new Date().toISOString()
     })
 
     // Leaderboard is computed from store users; evaluating it ensures latest order is ready.

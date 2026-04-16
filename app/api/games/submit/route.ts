@@ -70,7 +70,7 @@ export async function POST(req: Request) {
       xp: xpResult.newXP,
       level: xpResult.newLevel,
       badges: Array.from(new Set([...user.badges, ...badgesEarned])),
-      lastLogin: new Date().toISOString()
+      updated_at: new Date().toISOString()
     })
 
     return NextResponse.json({

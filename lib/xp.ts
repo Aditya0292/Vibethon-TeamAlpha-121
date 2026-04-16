@@ -62,18 +62,16 @@ export function checkAndAwardBadges(user: User): string[] {
   }
 
   if (user.xp > 0) grant("first_step")
-  if (user.completedModules.length >= 1) grant("code_breaker")
-  if (user.streak >= 1) grant("game_on")
-  if (user.streak >= 3) grant("on_fire")
-  if (user.completedModules.length >= 3) grant("module_master")
+  if (user.completed_msns.length >= 1) grant("code_breaker")
+  if (user.completed_msns.length >= 3) grant("module_master")
   if (user.xp >= 1500) grant("top_gun")
-  if (user.completedModules.length >= 5) grant("simulator")
+  if (user.completed_msns.length >= 5) grant("simulator")
 
   return newlyEarned
 }
 
-export function calculateStreak(lastLogin: string): number {
-  const previous = new Date(lastLogin)
+export function calculateStreak(updated_at: string): number {
+  const previous = new Date(updated_at)
   if (Number.isNaN(previous.getTime())) return 1
 
   const now = new Date()
