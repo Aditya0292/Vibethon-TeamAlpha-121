@@ -13,9 +13,9 @@ export default function Navbar() {
       {/* Nav Links */}
       <div className="hidden md:flex items-center gap-8">
         {[
-          { label: "Code Lab", route: "/code-lab" },
-          { label: "Neural Hub", route: "/games" },
-          { label: "Leaderboard", route: "/leaderboard" }
+          { label: "Network", route: "/code-lab" },
+          { label: "Vault", route: "/games" },
+          { label: "Nodes", route: "/leaderboard" }
         ].map((item) => (
           <Link
             key={item.label}

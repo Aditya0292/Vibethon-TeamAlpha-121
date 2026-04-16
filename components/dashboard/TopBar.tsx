@@ -7,31 +7,33 @@ export default function TopBar() {
 
   return (
     <div className="flex justify-between items-center w-full pb-4 border-b ghost-border">
-      {/* Mobile title */}
-      <h1 className="text-3xl font-headline font-bold uppercase tracking-[0.05em] text-on-surface md:hidden">
-        Dashboard
-      </h1>
-
-      {/* Desktop terminal input */}
-      <div className="hidden md:flex items-center gap-2 border-b border-outline-variant/50 focus-within:border-primary pb-1 w-64 transition-colors">
-        <span className="material-symbols-outlined text-on-surface-variant text-sm">terminal</span>
-        <input
-          type="text"
-          value={command}
-          onChange={(e) => setCommand(e.target.value)}
-          placeholder="Enter command..."
-          className="bg-transparent border-none text-on-surface font-mono text-sm focus:ring-0 w-full p-0 placeholder:text-on-surface-variant/50 outline-none"
-        />
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl md:text-4xl font-headline font-bold uppercase tracking-wider text-on-surface">
+          Intelligence Dashboard
+        </h1>
+        <p className="text-primary font-mono text-xs flex items-center gap-2">
+          <span className="material-symbols-outlined text-[16px]">subdirectory_arrow_right</span>
+          Neural OS v4.2.0 • Sector: Quantitative Analysis
+        </p>
       </div>
 
       {/* Right actions */}
-      <div className="flex items-center gap-4">
-        <button className="bg-surface-container-highest p-2 hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-on-surface">
-          <span className="material-symbols-outlined">notifications</span>
-        </button>
-        <button className="bg-surface-container-highest p-2 hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-on-surface md:hidden">
-          <span className="material-symbols-outlined">menu</span>
-        </button>
+      <div className="flex items-center gap-6">
+        <div className="hidden md:flex flex-col items-end">
+          <p className="text-on-surface-variant font-mono text-[10px] uppercase tracking-tighter">System Connectivity</p>
+          <div className="flex items-center gap-2">
+            <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            <p className="text-on-surface font-mono text-xs uppercase">Encrypted_Link_Active</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="bg-surface-container-highest p-2 hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-on-surface border border-outline-variant/15">
+            <span className="material-symbols-outlined">notifications</span>
+          </button>
+          <button className="bg-surface-container-highest p-2 hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-on-surface md:hidden border border-outline-variant/15">
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+        </div>
       </div>
     </div>
   );

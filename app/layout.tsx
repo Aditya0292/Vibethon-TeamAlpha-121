@@ -44,7 +44,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} bg-background text-on-background`}>
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${inter.variable} bg-background text-on-background relative`}>
+        <div className="tactical-grid" />
+        <div className="pointer-events-none fixed inset-0 z-[10000] scanlines" />
         {children}
       </body>
     </html>

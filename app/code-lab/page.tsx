@@ -146,21 +146,21 @@ export default function CodeLabPage() {
   const currentLevel = calculateLevel(totalXp)
 
   return (
-    <div className="flex h-screen bg-[#020617] text-slate-200 overflow-hidden font-mono relative">
-      <Sidebar />
+    <div className="flex h-screen bg-background text-on-surface overflow-hidden font-mono relative">
+      <Sidebar title="Nova_Core" />
 
       {/* Main Command Deck */}
-      <div className="flex-1 ml-72 flex flex-col min-w-0 bg-[#020617]">
+      <div className="flex-1 ml-72 flex flex-col min-w-0 bg-background">
         
         {/* Tactical Header */}
-        <header className="h-20 border-b border-slate-800 flex items-center justify-between px-8 bg-slate-900/40 backdrop-blur-xl">
+        <header className="h-20 border-b border-outline-variant/30 flex items-center justify-between px-8 bg-surface-container-high/40 backdrop-blur-xl">
           <div className="flex items-center gap-6">
                <div className="flex flex-col">
                     <div className="flex items-center gap-2">
-                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                         <span className="text-[10px] text-emerald-400 font-bold tracking-widest uppercase">Operator_Uplink: Live</span>
+                         <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                         <span className="text-[10px] text-primary font-bold tracking-widest uppercase">Operator_Uplink: Live</span>
                     </div>
-                    <h1 className="text-xl font-black tracking-tighter text-slate-100 uppercase italic">
+                    <h1 className="text-xl font-black tracking-tighter text-on-surface uppercase italic">
                          {activeMsn.title}
                     </h1>
                </div>
@@ -170,16 +170,16 @@ export default function CodeLabPage() {
           <div className="flex items-center gap-8">
                <div className="flex flex-col items-end gap-1">
                     <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">{currentLevel}</span>
-                        <span className="text-xs font-black text-emerald-400">{totalXp} XP</span>
+                        <span className="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">{currentLevel}</span>
+                        <span className="text-xs font-black text-primary">{totalXp} XP</span>
                     </div>
-                    <div className="w-48 h-1 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                    <div className="w-48 h-1 bg-surface-container-highest rounded-full overflow-hidden border border-outline-variant/20">
                         <div 
-                            className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)] transition-all duration-1000"
+                            className="h-full bg-gradient-to-r from-primary-container to-primary shadow-[0_0_10px_rgba(105,246,184,0.5)] transition-all duration-1000"
                             style={{ width: `${percentage}%` }}
                         />
                     </div>
-                    <span className="text-[8px] text-slate-600 uppercase tracking-tighter italic">Next Sync: {needed} XP required</span>
+                    <span className="text-[8px] text-on-surface-variant opacity-60 uppercase tracking-tighter italic">Next Sync: {needed} XP required</span>
                </div>
 
                <button 
@@ -188,8 +188,8 @@ export default function CodeLabPage() {
                     className={`
                          relative group flex items-center gap-3 px-8 py-3 rounded-sm font-black text-sm tracking-tighter transition-all duration-500
                          ${isExecuting 
-                             ? "bg-slate-800 text-slate-600 scale-95" 
-                             : "bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.3)] active:scale-90 overflow-hidden"
+                             ? "bg-surface-container-highest text-on-surface-variant opacity-50 scale-95" 
+                             : "bg-primary text-on-primary hover:bg-primary-dim shadow-[0_0_25px_rgba(105,246,184,0.3)] active:scale-90 overflow-hidden"
                          }
                     `}
                >
@@ -203,11 +203,11 @@ export default function CodeLabPage() {
         <div className="flex-1 flex min-h-0">
           
           {/* Left Wing: Mission Matrix */}
-          <div className="w-72 border-r border-slate-800 bg-slate-950/40 flex flex-col">
-               <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+          <div className="w-72 border-r border-outline-variant/30 bg-surface-container-low/40 flex flex-col">
+               <div className="p-4 border-b border-outline-variant/30 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                         <Target className="w-3 h-3 text-slate-500" />
-                         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Mission_Matrix</span>
+                         <Target className="w-3 h-3 text-on-surface-variant opacity-60" />
+                         <span className="text-[10px] font-bold text-on-surface-variant opacity-60 uppercase tracking-widest">Mission_Matrix</span>
                     </div>
                </div>
                 <div className="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar">
@@ -225,33 +225,33 @@ export default function CodeLabPage() {
                                    className={`
                                         w-full p-4 rounded-sm border text-left transition-all group relative overflow-hidden
                                         ${isActive 
-                                             ? "bg-emerald-500/10 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.1)]" 
-                                             : "bg-transparent border-slate-800/40 hover:border-slate-700 hover:bg-slate-900/40"
+                                             ? "bg-primary/10 border-primary/50 shadow-[0_0_15px_rgba(105,246,184,0.1)]" 
+                                             : "bg-transparent border-outline-variant/20 hover:border-outline-variant/40 hover:bg-surface-container-high/40"
                                         }
                                         ${isLocked ? "opacity-40 cursor-not-allowed grayscale" : ""}
                                    `}
                               >
                                    <div className="flex justify-between items-start mb-1">
                                         <div className="flex items-center gap-2">
-                                             <span className={`text-[9px] font-black uppercase tracking-widest ${isActive ? 'text-emerald-400' : 'text-slate-600'}`}>
-                                                 [{msn.difficulty}]
+                                             <span className={`text-[9px] font-black uppercase tracking-widest ${isActive ? 'text-primary' : 'text-on-surface-variant opacity-60'}`}>
+                                                  [{msn.difficulty}]
                                              </span>
                                              {isDone && (
-                                                  <span className="text-[8px] bg-emerald-500 text-slate-950 px-1 font-black">DONE</span>
+                                                  <span className="text-[8px] bg-primary text-on-primary px-1 font-black">DONE</span>
                                              )}
                                         </div>
                                         {isLocked ? (
-                                            <Lock className="w-3 h-3 text-slate-700" />
+                                            <Lock className="w-3 h-3 text-on-surface-variant opacity-40" />
                                         ) : isDone ? (
-                                             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                                             <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                                         ) : (
-                                            <div className="w-1.5 h-1.5 rounded-full bg-slate-700 animate-pulse" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-outline-variant animate-pulse" />
                                         )}
                                    </div>
-                                   <div className={`text-xs font-bold ${isActive ? 'text-slate-100' : 'text-slate-400 group-hover:text-slate-300'}`}>
+                                   <div className={`text-xs font-bold ${isActive ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface'}`}>
                                         {msn.title}
                                    </div>
-                                   <div className="text-[9px] text-slate-600 mt-1 line-clamp-1 italic italic">
+                                   <div className="text-[9px] text-on-surface-variant opacity-50 mt-1 line-clamp-1 italic">
                                         {isLocked ? `Sync Required: ${msn.requiredXp} XP` : msn.shortDesc}
                                    </div>
                               </button>
@@ -261,7 +261,7 @@ export default function CodeLabPage() {
           </div>
 
           {/* Center: Core Control */}
-          <div className="flex-1 flex flex-col min-w-0 bg-[#0a0f1e]">
+          <div className="flex-1 flex flex-col min-w-0 bg-background/50">
                <div className="flex-1 relative">
                     <Editor
                         height="100%"
@@ -279,19 +279,19 @@ export default function CodeLabPage() {
                     />
                </div>
                {/* Terminal Buffer */}
-               <div className="h-64 border-t border-slate-800 flex flex-col bg-black/60 relative overflow-hidden">
-                    <div className="h-8 border-b border-slate-800 bg-slate-900/50 flex items-center justify-between px-4">
+               <div className="h-64 border-t border-outline-variant/30 flex flex-col bg-black/60 relative overflow-hidden">
+                    <div className="h-8 border-b border-outline-variant/30 bg-surface-container-high/50 flex items-center justify-between px-4">
                          <div className="flex items-center gap-2">
-                              <TerminalIcon className="w-3 h-3 text-emerald-500" />
-                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Neural_Buffer_Output</span>
+                              <TerminalIcon className="w-3 h-3 text-primary" />
+                              <span className="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">Neural_Buffer_Output</span>
                          </div>
                     </div>
                     <div className="flex-1 overflow-y-auto p-4 space-y-1">
                          {logs.map((log, i) => (
                               <div key={i} className={`text-xs flex gap-3 ${
-                                   log.startsWith("[ERROR]") ? "text-red-500" :
-                                   log.startsWith("[STDOUT]") ? "text-emerald-400" :
-                                   log.startsWith("[SYSTEM]") ? "text-slate-500" : "text-cyan-400"
+                                   log.startsWith("[ERROR]") ? "text-error" :
+                                   log.startsWith("[STDOUT]") ? "text-primary" :
+                                   log.startsWith("[SYSTEM]") ? "text-on-surface-variant opacity-60" : "text-tertiary"
                               }`}>
                                    <span className="opacity-30 shrink-0 select-none">{i+1}</span>
                                    <span className="whitespace-pre-wrap">{log}</span>
@@ -302,13 +302,13 @@ export default function CodeLabPage() {
                </div>
           </div>
 
-          {/* Right Wing: AI Advisor */}
-          <div className="w-80 border-l border-slate-800 bg-slate-950/60 flex flex-col">
-               <div className="flex border-b border-slate-800">
+           {/* Right Wing: AI Advisor */}
+          <div className="w-80 border-l border-outline-variant/30 bg-surface-container-low/60 flex flex-col">
+               <div className="flex border-b border-outline-variant/30">
                     <button 
                         onClick={() => setActiveTab("briefing")}
                         className={`flex-1 flex items-center justify-center gap-2 py-3 text-[10px] font-black tracking-widest uppercase transition-all
-                            ${activeTab === 'briefing' ? 'bg-emerald-500/10 text-emerald-400 border-b-2 border-emerald-400' : 'text-slate-500 hover:text-slate-400'}
+                            ${activeTab === 'briefing' ? 'bg-primary/10 text-primary border-b-2 border-primary' : 'text-on-surface-variant opacity-60 hover:text-on-surface'}
                         `}
                     >
                         <Zap className="w-3 h-3" /> Briefing
@@ -316,7 +316,7 @@ export default function CodeLabPage() {
                     <button 
                         onClick={() => setActiveTab("advisor")}
                         className={`flex-1 flex items-center justify-center gap-2 py-3 text-[10px] font-black tracking-widest uppercase transition-all
-                            ${activeTab === 'advisor' ? 'bg-cyan-500/10 text-cyan-400 border-b-2 border-cyan-400' : 'text-slate-500 hover:text-slate-400'}
+                            ${activeTab === 'advisor' ? 'bg-tertiary/10 text-tertiary border-b-2 border-tertiary' : 'text-on-surface-variant opacity-60 hover:text-on-surface'}
                         `}
                     >
                         <BrainCircuit className="w-3 h-3" /> Syn_Intel
@@ -326,54 +326,54 @@ export default function CodeLabPage() {
                <div className="flex-1 overflow-y-auto p-6 transition-all duration-500">
                     {activeTab === "briefing" ? (
                          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
-                              <div className="space-y-2">
-                                   <span className="text-[10px] text-emerald-500/60 font-black uppercase tracking-widest">Objective</span>
-                                   <p className="text-sm leading-relaxed text-slate-300 font-medium">
+                               <div className="space-y-2">
+                                   <span className="text-[10px] text-primary opacity-60 font-black uppercase tracking-widest">Objective</span>
+                                   <p className="text-sm leading-relaxed text-on-surface-variant font-medium">
                                         {activeMsn.description}
                                    </p>
                               </div>
-                              <div className="p-4 rounded-sm bg-emerald-500/5 border border-emerald-500/20 space-y-2">
+                              <div className="p-4 rounded-sm bg-primary/5 border border-primary/20 space-y-2">
                                    <div className="flex items-center gap-2">
-                                        <Activity className="w-3 h-3 text-emerald-400" />
-                                        <span className="text-[10px] text-emerald-400 font-black uppercase tracking-widest">Tactical_Parameters</span>
+                                        <Activity className="w-3 h-3 text-primary" />
+                                        <span className="text-[10px] text-primary font-black uppercase tracking-widest">Tactical_Parameters</span>
                                    </div>
-                                   <div className="text-[11px] text-slate-400 space-y-1">
+                                   <div className="text-[11px] text-on-surface-variant space-y-1">
                                         <div className="flex justify-between">
                                              <span>XP Reward:</span>
-                                             <span className="text-emerald-400 font-bold">+{activeMsn.xp}</span>
+                                             <span className="text-primary font-bold">+{activeMsn.xp}</span>
                                         </div>
                                         <div className="flex justify-between">
                                              <span>Difficulty:</span>
-                                             <span className="text-emerald-400">{activeMsn.difficulty}</span>
+                                             <span className="text-primary">{activeMsn.difficulty}</span>
                                         </div>
                                    </div>
                               </div>
                               <div className="space-y-2">
-                                   <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">Field_Notes</span>
-                                   <p className="text-[11px] text-slate-500 italic leading-relaxed">
+                                   <span className="text-[10px] text-on-surface-variant opacity-60 font-bold uppercase tracking-widest">Field_Notes</span>
+                                   <p className="text-[11px] text-on-surface-variant opacity-50 italic leading-relaxed">
                                         Ensure the output is strictly formatted as requested. Syn_Intel will analyze all execution pulses.
                                    </p>
                               </div>
                          </div>
                     ) : (
                          <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
-                              <div className="p-5 rounded-sm bg-cyan-500/5 border border-cyan-500/20 relative group overflow-hidden">
+                               <div className="p-5 rounded-sm bg-tertiary/5 border border-tertiary/20 relative group overflow-hidden">
                                    <div className="absolute top-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
-                                        <BrainCircuit className="w-8 h-8 text-cyan-400" />
+                                        <BrainCircuit className="w-8 h-8 text-tertiary" />
                                    </div>
                                    <div className="flex items-center gap-2 mb-4">
-                                        <MessageSquare className="w-3 h-3 text-cyan-400" />
-                                        <span className="text-[10px] text-cyan-400 font-black uppercase tracking-widest">Neural_Analysis</span>
+                                        <MessageSquare className="w-3 h-3 text-tertiary" />
+                                        <span className="text-[10px] text-tertiary font-black uppercase tracking-widest">Neural_Analysis</span>
                                    </div>
-                                   <div className="text-[13px] text-slate-200 leading-relaxed font-medium italic">
+                                   <div className="text-[13px] text-on-surface leading-relaxed font-medium italic">
                                         {suggestion ? suggestion : "Awaiting code execution pulse. Analyze the parameters in the Briefing tab to begin calibration."}
                                    </div>
                               </div>
                               
                               {activeMsn.hint && (
-                                   <div className="space-y-3 p-4 border-l-2 border-slate-800">
-                                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Direct_Link_Hint</span>
-                                        <p className="text-[11px] text-slate-500 leading-relaxed">
+                                   <div className="space-y-3 p-4 border-l-2 border-outline-variant/30">
+                                        <span className="text-[10px] text-on-surface-variant opacity-60 font-bold uppercase tracking-widest">Direct_Link_Hint</span>
+                                        <p className="text-[11px] text-on-surface-variant opacity-50 leading-relaxed">
                                              {activeMsn.hint}
                                         </p>
                                    </div>
@@ -383,10 +383,10 @@ export default function CodeLabPage() {
                </div>
 
                {/* Stats Footer */}
-               <div className="p-4 border-t border-slate-800 bg-black/40 text-[9px] text-slate-600 space-y-2">
+               <div className="p-4 border-t border-outline-variant/30 bg-black/40 text-[9px] text-on-surface-variant opacity-60 space-y-2">
                     <div className="flex justify-between">
                          <span className="uppercase tracking-widest">System_Integrity</span>
-                         <span className="text-emerald-500 font-bold">OPTIMAL</span>
+                         <span className="text-primary font-bold">OPTIMAL</span>
                     </div>
                     <div className="flex justify-between">
                          <span className="uppercase tracking-widest">Neural_Load</span>

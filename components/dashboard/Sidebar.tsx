@@ -11,7 +11,7 @@ const navItems = [
   { label: "Comms", icon: "forum", href: "/dashboard/comms" },
 ];
 
-export default function Sidebar({ user }: { user?: any }) {
+export default function Sidebar({ user, title = "Cmd_Center" }: { user?: any, title?: string }) {
   const pathname = usePathname();
 
   return (
@@ -25,7 +25,7 @@ export default function Sidebar({ user }: { user?: any }) {
             </svg>
           </div>
           <h2 className="text-on-surface text-xl font-headline font-bold uppercase tracking-[0.05em]">
-            Cmd_Center
+            {title}
           </h2>
         </header>
 

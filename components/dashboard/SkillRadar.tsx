@@ -42,6 +42,10 @@ export default function SkillRadar({ skills }: { skills?: any }) {
             <span className="text-primary font-mono text-sm ml-2">[ML CAPABILITIES]</span>
           </h2>
         </div>
+        <div className="flex flex-col items-end">
+          <p className="text-secondary font-mono text-xs font-bold">LEVEL 42</p>
+          <p className="text-[10px] text-on-surface-variant uppercase tracking-tighter">Current Level</p>
+        </div>
       </div>
 
       {/* Radar */}
@@ -118,9 +122,14 @@ export default function SkillRadar({ skills }: { skills?: any }) {
       </div>
 
       {/* Footer Status */}
-      <div className="mt-8 flex items-center gap-3">
-         <div className="h-[2px] w-8 bg-emerald-500/20" />
-         <span className="font-mono text-[10px] text-on-surface-variant uppercase tracking-widest italic">Heuristic_Biometrics_Synced</span>
+      <div className="mt-8 pt-6 border-t border-outline-variant/15 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+           <div className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
+           <span className="font-mono text-[10px] text-on-surface-variant uppercase tracking-widest italic">+15% EFFICIENCY THIS CYCLE</span>
+        </div>
+        <button className="text-[10px] font-mono font-black text-primary border border-primary/30 px-3 py-1 hover:bg-primary/10 transition-all uppercase">
+          Calibrate
+        </button>
       </div>
     </div>
   );

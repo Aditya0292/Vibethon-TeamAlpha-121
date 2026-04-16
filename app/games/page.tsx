@@ -6,16 +6,14 @@ import Sidebar from "@/components/dashboard/Sidebar"
 export default function GamesPage() {
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen flex overflow-x-hidden">
-      <div className="pointer-events-none fixed inset-0 z-50 scanlines mix-blend-screen" />
+      <Sidebar title="Tactical_Hub" />
       
-      <Sidebar />
-      
-      <main className="flex-1 md:ml-72 p-6 lg:p-10 flex flex-col gap-8 min-h-screen relative z-10">
+      <main className="flex-1 md:ml-72 flex flex-col relative z-10 p-6 md:p-10 gap-10 overflow-y-auto min-h-screen">
         <header className="mb-4">
-          <h1 className="font-headline text-4xl font-bold uppercase tracking-[0.05em] text-on-surface">Neural Hub</h1>
+          <h1 className="font-headline text-4xl font-bold uppercase tracking-[0.05em] text-on-surface">Game Zone</h1>
           <p className="mt-2 flex items-center gap-2 font-mono text-sm text-primary">
             <span className="material-symbols-outlined text-[16px]">subdirectory_arrow_right</span>
-            Tactical Machine Learning Directory
+            Tactical Mini-Games Directory
           </p>
         </header>
 
