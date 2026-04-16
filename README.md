@@ -14,6 +14,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-Auth_%26_DB-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 **Codename: `Vibeathon-TeamAlpha`**
 
@@ -63,7 +64,8 @@ vibeathon-teamalpha/
 *   **[02] COGNITIVE PROFILING:** A dedicated Assessment Wing for real-time evaluation of machine learning depth, featuring difficulty-adaptive quizzes.
 *   **[03] THE ARMORY:** Dynamic visualizers (KNN, Neural Lite) to deconstruct complex algorithms into visual logic.
 *   **[04] OPERATOR DASHBOARD:** Centralized telemetry to track XP, Skill Radars, and Mission History through a sleek institutional interface.
-*   **[05] LIQUID GLASS UI:** A premium, dark-mode design system with scanning overlays and holographic aesthetic.
+*   **[05] GLOBAL LEADERBOARD:** Real-time global ranking system tracked via cloud-persistence. Benchmark your telemetry against other top-tier operatives.
+*   **[06] LIQUID GLASS UI:** A premium, dark-mode design system with scanning overlays and holographic aesthetic.
 
 ---
 
@@ -87,6 +89,11 @@ vibeathon-teamalpha/
 #### 🟣 PHASE 5: ASSESSMENT UNIT (QUIZ ARENA)
 *   Launched "Neural Assessment" with difficulty-tiered cognitive profiling.
 
+#### 🌌 PHASE 6: LIVE PERSISTENCE & GLOBAL UPLINK
+*   Migrated to full Supabase persistence for XP and mission logs.
+*   Deployed the Global Leaderboard for competitive operative ranking.
+*   Fixed mission progression loop and implemented auto-advancement in CodeLab.
+
 ---
 
 ### 🔧 DEPLOYMENT MANUAL
@@ -100,13 +107,18 @@ vibeathon-teamalpha/
    Create `.env.local` with your tactical credentials:
    ```env
    NEXT_PUBLIC_SUPABASE_URL=...
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
    GEMINI_API_KEY=...
    OPENROUTER_API_KEY=...
    GROK_API_KEY=...
    ```
 
-3. **ESTABLISH CONNECTION:**
+3. **DATABASE INITIALIZATION:**
+   Run the tactical SQL migration found in:  
+   `./supabase/migrations/20240416_create_profiles.sql`  
+   in your Supabase SQL Editor.
+
+4. **ESTABLISH CONNECTION:**
    ```bash
    npm run dev
    ```
