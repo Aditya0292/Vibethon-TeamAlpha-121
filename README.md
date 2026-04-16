@@ -69,6 +69,60 @@ vibeathon-teamalpha/
 
 ---
 
+### 📡 TERMINAL HIERARCHY
+
+| Sector | Tactical Codename | Description | Visual Reference |
+| :--- | :--- | :--- | :--- |
+| **Home / Auth** | `ACCESS_TERMINAL` | Initial uplink with encrypted registration & session initialization. | ![Access Terminal](public/docs/screenshots/home.png) |
+| **Dashboard** | `CMD_CENTER` | Real-time tactical telemetry and mission log synchronization. | ![Cmd Center](public/docs/screenshots/dashboard.png) |
+| **Code Lab** | `NOVA_CORE` | Integrated development environment for neural mission execution. | ![Nova Core](public/docs/screenshots/codelab.png) |
+| **Neural Hub** | `TACTICAL_HUB` | Interactive visualizers for algorithmic stress-testing and deployment. | ![Tactical Hub](public/docs/screenshots/games.png) |
+| **Quiz Arena** | `QUIZ_ARENA` | Cognitive profiling unit for mission-readiness assessments. | ![Quiz Arena](public/docs/screenshots/quiz.png) |
+
+---
+
+### 💎 UI ARCHITECTURE (SNIPPETS)
+
+The platform achieves its **"Liquid Glass"** aesthetic through a multi-layered global CSS implementation.
+
+#### 1. Tactical Scanlines (Global Overlay)
+Fine-grain animated horizontal lines that provide a "Neural OS" texture.
+
+```css
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 1px,
+    rgba(105, 246, 184, 0.04) 1px,
+    rgba(105, 246, 184, 0.04) 2px
+  );
+  pointer-events: none;
+  z-index: 10000;
+  animation: scanline_float 30s linear infinite;
+}
+```
+
+#### 2. Geometric Tactical Grid
+A broad background grid that provides geometric depth across all sectors.
+
+```css
+.tactical-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(105, 246, 184, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(105, 246, 184, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+```
+
+---
+
 ### 📜 MISSION LOGS (DEVELOPMENT PHASES)
 
 #### 🟢 PHASE 1: INITIAL UPLINK (FOUNDATION)
