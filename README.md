@@ -14,14 +14,13 @@
 
 ---
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-neuroflow.vercel.app-00ff88?style=for-the-badge)](https://neuroflow.vercel.app)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-vibethon--team--alpha--121-00ff88?style=for-the-badge)](https://vibethon-team-alpha-121.vercel.app/)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-Auth_%26_DB-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![Gemini](https://img.shields.io/badge/Gemini_2.0_Flash-AI_Engine-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://deepmind.google/technologies/gemini/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
 
 <br/>
 
@@ -30,7 +29,7 @@
 
 <br/>
 
-**[🌐 Live Demo](https://neuroflow.vercel.app) · [📖 Docs](#-strategic-overview) · [🐛 Report Bug](https://github.com/Aditya0292/NeuroFlow-Edutech/issues) · [✨ Request Feature](https://github.com/Aditya0292/NeuroFlow-Edutech/issues)**
+**[🌐 Live Demo](https://vibethon-team-alpha-121.vercel.app/) · [📖 Docs](#-strategic-overview) · [🐛 Report Bug](https://github.com/Aditya0292/Vibethon-TeamAlpha-121/issues) · [✨ Request Feature](https://github.com/Aditya0292/Vibethon-TeamAlpha-121/issues)**
 
 </div>
 
@@ -74,15 +73,18 @@ Traditional Learning          NeuroFlow
 - AI-driven code reviews and mission hints via SYN_INTEL
 
 ### 🕹️ Tactical Mini-Games
-- **KNN Matcher**: Visual cluster analysis and deployment units.
-- **Neural Playboard**: Interactive parameter tuning for deep learning models.
 
-### 🧪 Neural Simulations
-- **Spam Detection**: Real-time classification with feature analysis and confidence metrics.
+**1. KNN Matcher (Module_01)**
+> **Technical Description**: Interactive K-Nearest Neighbors visualizer implementing real-time Euclidean distance calculations and majority voting logic on a 2D coordinate plane.
+- **Why it's better**: Continuous feedback loop. Unlike static plots, operatives can deploy "Units" (data points) and immediately observe how decision boundaries and outlier influence shift. It turns abstract classification into spatial tactical logic.
+
+**2. Neural Playboard (Module_02)**
+> **Technical Description**: A real-time neural network architecture sandbox allowing direct manipulation of weights, biases, and activation functions via tactile hardware-style sliders.
+- **Why it's better**: Demystifies the "black box." By manually adjusting weights and seeing the loss surface react instantly, operatives gain an intuitive understanding of backpropagation and optimization that traditional textbooks cannot convey.
 
 ### 📊 XP & Progression
 - Tiered ranking from **Beginner** to **ML Expert**.
-- Dynamic Skill Radar telemetry.
+- Dynamic Skill Radar telemetry tracker.
 
 ---
 
@@ -165,7 +167,7 @@ The platform achieves its **"Liquid Glass"** aesthetic through a multi-layered g
 | Role | Person |
 |------|--------|
 | 🧠 AI/Backend | [Aditya](https://github.com/Aditya0292) |
-| 🎨 Frontend/UI | Team Alpha |
+| 🎨 Frontend/UI | [Vedant](https://github.com/notvedantt) |
 
 ---
 
